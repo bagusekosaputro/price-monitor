@@ -2,7 +2,9 @@ version: "3"
 
 services: 
     web:
-        build: .
+        build: 
+            context: .
+            dockerfile: Dockerfile
         container_name: product_web
         command: bash -c "python app.py runserver"
         restart: unless-stopped
