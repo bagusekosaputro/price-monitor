@@ -36,7 +36,7 @@ def create_app():
     # running scheduler scrap page
     scheduler = BackgroundScheduler()
 
-    scheduler.add_job(scrap_page, trigger='interval', hours=1)
+    scheduler.add_job(scrap_page, trigger='cron', hour="*")
     scheduler.start()
 
     # configure flask script manager
