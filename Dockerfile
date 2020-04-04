@@ -4,7 +4,7 @@ ENV PYTHONUNBUFFERED 1
 
 COPY . /app
 
-COPY .env.example .env
+COPY ./.env.example /app/.env
 
 WORKDIR /app
 
