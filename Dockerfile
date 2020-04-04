@@ -8,7 +8,6 @@ COPY .env.sample /.env
 
 WORKDIR /app
 
-COPY .env.sample /.env
 
 RUN apt-get update && apt-get install -y \
         gcc \
