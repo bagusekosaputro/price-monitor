@@ -1,0 +1,30 @@
+version: "3"
+
+services: 
+    web:
+        build: .
+        container_name: product_web
+        command: bash -c "python app.py runserver"
+        restart: unless-stopped
+        ports: 
+            - "5000:5000"
+        environment: 
+            - FLASK_ENV=development
+        volumes: 
+            - .:/app
+
+    db:
+        container_name: product_db
+        image: mysql:5.7
+        restart: unless-stopped
+        ports: 
+            - "3306:3306"
+        environment: 
+            - MYSQL_USER=pmf
+            - MYSQL_PASSWORD=pmfAdm!n
+            - MYSQL_ROOT_PASSWORD=ro0t4admin
+            - MYSQL_DATABASE=pmf_db
+        volumes: 
+            - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+            - ./data/db:/var/lib/mysql
+    
