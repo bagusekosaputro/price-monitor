@@ -2,13 +2,14 @@ from src.controllers.product_controller import ProductController
 from src.utils.page_extractor import PageExtractor
 
 class ScrapJob:
-    # def __init__(self):
-    #     self.__controller = ProductController()
+    
+    def __init__(self):
+        self.__controller = ProductController()
 
-    def check():
-        controller = ProductController()
+    def check(self):
+        self.__controller = ProductController()
 
-        products = controller.find_all()
+        products = self.__controller.find_all()
         
         for product in products['data']:
             try:
@@ -17,7 +18,7 @@ class ScrapJob:
                 extractor = PageExtractor(link).extract_page()
 
                 if extractor:
-                    controller.update(pid, extractor)
+                    self.__controller.update(pid, extractor)
             except Exception as err:
                 pass
 

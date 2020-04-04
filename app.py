@@ -9,12 +9,6 @@ from apscheduler.schedulers.background import BackgroundScheduler
 db = SQLAlchemy()
 migrate = Migrate()
 
-def scrap_page(scrap):
-    print("Start scrap job")
-    jobs = scrap()
-    scrap.check()
-    print("End scrap job")
-
 def create_app():
     app = Flask(__name__, instance_relative_config=False)
     app.config.from_object("src.config.config.Config")
@@ -29,14 +23,21 @@ def create_app():
     from src.config.routes import main_page
     app.register_blueprint(main_page)
     
-    from src.utils.scrap_job import ScrapJob
+    def scrap_page():
+        with app.app_context():
+            from src.utils.scrap_job import ScrapJob
+            
+            print("Start scrap job")
+            scrap = ScrapJob()
+            scrap.check()
+            print("End scrap job")
+    
     
     # running scheduler scrap page
-    # scheduler = BackgroundScheduler()
+    scheduler = BackgroundScheduler()
 
-    
-    # scheduler.add_job(lambda: scrap_page(ScrapJob), trigger='interval', seconds=30)
-    # scheduler.start()
+    scheduler.add_job(scrap_page, trigger='interval', hours=1)
+    scheduler.start()
 
     # configure flask script manager
     manager = Manager(app)
