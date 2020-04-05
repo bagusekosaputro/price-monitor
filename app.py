@@ -12,6 +12,9 @@ migrate = Migrate()
 def create_app():
     app = Flask(__name__, instance_relative_config=False)
     app.config.from_object("src.config.config.Config")
+    app.config['FLASK_ENV'] = 'production'
+    app.config['DEBUG'] = False
+    app.config['USE_RELOADER'] = False
 
     from src.models.product import Product
     from src.models.price import Price
@@ -27,10 +30,10 @@ def create_app():
         with app.app_context():
             from src.utils.scrap_job import ScrapJob
             
-            print("Start scrap job")
+            # print("Start scrap job")
             scrap = ScrapJob()
             scrap.check()
-            print("End scrap job")
+            # print("End scrap job")
     
     
     # running scheduler scrap page
@@ -38,6 +41,7 @@ def create_app():
 
     scheduler.add_job(scrap_page, trigger='cron', hour="*")
     scheduler.start()
+
 
     # configure flask script manager
     manager = Manager(app)
