@@ -21,3 +21,5 @@ class Config:
     SQLALCHEMY_DATABASE_URI = f"mysql://{db_user}:{db_pass}@product_db:{db_port}/{db_name}"
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_POOL_RECYCLE = 499
+    SQLALCHEMY_POOL_TIMEOUT = 20
