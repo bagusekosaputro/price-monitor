@@ -28,7 +28,7 @@ class ProductController:
             
             if product:
                 row = self.__to_dict(product)
-                prices = Price.query.filter_by(product_id=row['source_product_id']).order_by(Price.updated_at.desc())
+                prices = Price.query.filter_by(product_id=row['source_product_id']).order_by(Price.id)
                 
                 get_price = Price.query.filter_by(product_id=row['source_product_id']).order_by(Price.updated_at.desc()).first()
                 price = self.__to_dict(get_price)
