@@ -1,0 +1,9 @@
+flask
+Flask-Migrate
+Flask-SQLAlchemy
+Flask-Script
+beautifulsoup4
+requests
+mysqlclient
+python-dotenv
+apscheduler
