@@ -6,25 +6,19 @@ from datetime import datetime
 class ProductController:
     
     def find_all(self, filters=None):
-        try:
-            result = []
+        result = []
 
-            products = Product.query.all()
+        products = Product.query.all()
 
-            for row in products:
-                row = self.__to_dict(row)
-                get_price = Price.query.filter_by(product_id=row['source_product_id']).order_by(Price.updated_at.desc()).first()
-                price = self.__to_dict(get_price)
+        for row in products:
+            row = self.__to_dict(row)
+            get_price = Price.query.filter_by(product_id=row['source_product_id']).order_by(Price.updated_at.desc()).first()
+            price = self.__to_dict(get_price)
 
-                row['latest_price'] = price['price']
-                result.append(row)
+            row['latest_price'] = price['price']
+            result.append(row)
 
-            db.session.commit()
-
-            return self.__make_response(200, True, 'success', result)
-        except Exception as err:
-            db.session.rollback()
-            return self.__make_response(500, False, str(err))
+        return self.__make_response(200, True, 'success', result)
     
     def find_by_id(self, id):
         try:
@@ -47,14 +41,10 @@ class ProductController:
                     
                     row['prices'].append(raw)
 
-                
                 resp = self.__make_response(200, True, 'product found', row)
-            
-            db.session.commit()
-
+                
             return resp
         except Exception as err:
-            db.session.rollback()
             return self.__make_response(500, False, str(err))
     
     def find_by_product_id(self, product_id):
@@ -65,11 +55,9 @@ class ProductController:
             
             if product:
                 resp = self.__make_response(200, True, 'product found', self.__to_dict(product))
-            
-            db.session.commit()
+                
             return resp
         except Exception as err:
-            db.session.rollback()
             return self.__make_response(500, False, str(err))
 
     def create(self, data):
